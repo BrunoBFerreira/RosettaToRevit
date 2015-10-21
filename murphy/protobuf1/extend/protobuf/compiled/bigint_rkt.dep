@@ -1,0 +1,1 @@
+("6.1" ("345d9134028109c207a8c881ceb36e608db8525f" . "2d956fc48e8f15716ba54bc5c853cfe133242347") (collects #"murphy" #"protobuf1" #"syntax.rkt") (collects #"racket" #"base.rkt") (collects #"murphy" #"protobuf1" #"google" #"protobuf" #"descriptor.rkt") (collects #"racket" #"runtime-config.rkt"))
