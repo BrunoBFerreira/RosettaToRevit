@@ -248,6 +248,11 @@
   (required primitive:double height 13)
   (required struct:idstrc level-id 14)))
 (define-message-type
+ masssweepstrc
+ ((repeated primitive:double profile1 1)
+  (repeated primitive:double path 2)
+  (repeated primitive:double profile2 3)))
+(define-message-type
  wallsfromslabsstrc
  ((required struct:idstrc slabid 1)
   (required struct:idstrc blevel 2)

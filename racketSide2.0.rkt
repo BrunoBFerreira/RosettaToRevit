@@ -37,6 +37,15 @@
   (set! current-level (make-parameter (get-level 0 "Level 1")))
   (delete-level "Level 2"))
 
+(define (connect-to-revit-family)
+  (call-with-values(lambda () (tcp-connect server-addr 53800))
+                   (lambda (a b)
+                     (set! input a)
+                     (set! output b)
+                     (file-stream-buffer-mode input 'none)
+                     (file-stream-buffer-mode output 'none)))
+  (set! current-level (make-parameter (get-level 0 "Level 1"))))
+
 (define (close-ports)
   (close-input-port input)
   (close-output-port output))
@@ -110,7 +119,7 @@
                                        #:p2coordx (cx p)
                                        #:p2coordy (+ (cy p) r)
                                        #:p2coordz (cz p)) output)
-  (read-sized (cut deserialize (idstrc*) <>) input))
+  (polyidstrc-ids (read-sized (cut deserialize (polyidstrc*) <>) input)))
 
 (define (union id1 id2 . ids)
   (let ((l (list)))
@@ -124,24 +133,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;BIM Function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-#|
-Current-level emulado.
-
-Usa current level para criar objectos
-
-Porta com atributos: largura, altura da porta.
-
-Slab com arcos entre cada 2 pontos c/ angulo.
-
-Nomeia automaticamente os niveis(stories).
-
-Apaga todos os niveis.
-
-Colunas com altura absoluta para bottom e up tendo em conta o story. Atributos.
-
-Buracos no chao com lista de pontos.
-
-|#
 
 (define (test-new) 
   (write-sized serialize (namestrc* #:name "test") output))
@@ -458,6 +449,24 @@ Buracos no chao com lista de pontos.
   (write-sized serialize (namestrc* #:name "getLevelByName") output)
   (write-sized serialize (namestrc* #:name name) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
+
+(define (highlight-element id)
+  (write-sized serialize (namestrc* #:name "highlightElement") output)
+  (write-sized serialize id output))
+
+(define (get-selected-element)
+  (write-sized serialize (namestrc* #:name "getSelectedElement") output)
+  (polyidstrc-ids (read-sized (cut deserialize (polyidstrc*) <>) input)))
+
+(define (mass-sweep profile1 path profile2)
+  (let ((prof1 (convert-list profile1))
+        (prof2 (convert-list profile2))
+        (pth (convert-list path)))
+    (write-sized serialize (namestrc* #:name "createMassSweep") output)
+    (write-sized serialize (masssweepstrc* #:profile1 prof1
+                                          #:path pth
+                                          #:profile2 prof2) output)
+    (read-sized (cut deserialize (idstrc*) <>) input)))
 
 ;;;;;;;;Auxiliary Funtions;;;;;;;;;;;;;;
 
