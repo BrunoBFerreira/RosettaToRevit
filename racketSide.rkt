@@ -6,8 +6,20 @@
 (require "rosetta/protobuf1/encoding.rkt")
 (require srfi/26)
 (require "pbContracts.rkt")
+(require racket/date)
 
 (provide (all-defined-out))
+
+;;;;;;;Installation;;;;;;;;;;;;;;;;;;;;;
+
+(when (and (directory-exists? "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015") (file-exists? "RosettaToRevit.addin") (file-exists? "RosettaToRevit.dll"))
+        (begin
+          (rename-file-or-directory "RosettaToRevit.addin" "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015\\RosettaToRevit.addin" #t)
+          (rename-file-or-directory "RosettaToRevit.dll" "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015\\RosettaToRevit.dll" #t)))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define input #f)
 (define output #f)
