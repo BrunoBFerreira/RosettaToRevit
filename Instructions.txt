@@ -1,8 +1,9 @@
 Instructions:
 
-Open the .addin file with notepad and change the assembly path to match the location of the .dll on your computer.
+Copy the addin file to:
 
-Next, copy the .addin file to the follow location, if you are using Windows 7, 8, 8.1:
+C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015\\RosettaToRevit.addin
 
-C:\ProgramData\Autodesk\Revit\Addins\2015
+And the dll file to:
 
+C:\\Autodesk\\RosettaToRevit.dll

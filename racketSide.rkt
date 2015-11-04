@@ -12,11 +12,13 @@
 
 ;;;;;;;Installation;;;;;;;;;;;;;;;;;;;;;
 
-(when (and (directory-exists? "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015") (file-exists? "RosettaToRevit.addin") (file-exists? "RosettaToRevit.dll"))
+(define (move-addon-files)
+  (when (and (directory-exists? "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015") (file-exists? "RosettaToRevit.addin") (file-exists? "RosettaToRevit.dll"))
         (begin
           (rename-file-or-directory "RosettaToRevit.addin" "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015\\RosettaToRevit.addin" #t)
-          (rename-file-or-directory "RosettaToRevit.dll" "C:\\Autodesk\\RosettaToRevit.dll" #t)))
+          (rename-file-or-directory "RosettaToRevit.dll" "C:\\Autodesk\\RosettaToRevit.dll" #t))))
 
+(move-addon-files)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
