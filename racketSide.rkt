@@ -8,18 +8,26 @@
 (require "pbContracts.rkt")
 (require racket/date)
 
+(require racket/runtime-path)
+
 (provide (all-defined-out))
+
+(define-runtime-path addin "RosettaToRevit.addin")
+(define-runtime-path dll "RosettaToRevit.dll")
 
 ;;;;;;;Installation;;;;;;;;;;;;;;;;;;;;;
 
 (define (move-addon-files)
-  (when (and (directory-exists? "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015") (file-exists? "RosettaToRevit.addin") (file-exists? "RosettaToRevit.dll"))
-        (begin
-          (rename-file-or-directory "RosettaToRevit.addin" "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015\\RosettaToRevit.addin" #t)
-          (rename-file-or-directory "RosettaToRevit.dll" "C:\\Autodesk\\RosettaToRevit.dll" #t))))
+  (display "Checking plugin...")
+  (when (and (directory-exists? "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015")
+             (file-exists? addin)
+             (file-exists? dll))
+    (display "Installing plugin...")
+    (rename-file-or-directory addin "C:\\ProgramData\\Autodesk\\Revit\\Addins\\2015\\RosettaToRevit.addin" #t)
+    (rename-file-or-directory dll "C:\\Autodesk\\RosettaToRevit.dll" #t))
+  (displayln "done!"))
 
 (move-addon-files)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -43,23 +51,37 @@
 (define server-addr "localhost")
 
 (define (connect-to-revit)
-  (call-with-values(lambda () (tcp-connect server-addr 53800))
-                   (lambda (a b)
-                     (set! input a)
-                     (set! output b)
-                     (file-stream-buffer-mode input 'none)
-                     (file-stream-buffer-mode output 'none)))
-  (set! current-level (make-parameter (get-level 0 "Level 1")))
-  (delete-level "Level 2"))
+  (let rec((n 10))
+    (with-handlers ((exn:fail? (lambda (e)
+                                 (displayln "Reinicie o Revit")
+                                 (sleep 10)
+                                 (if (> n 0)
+                                     (rec (- n 1))
+                                     (raise e)))))
+      (call-with-values(lambda () (tcp-connect server-addr 53800))
+                       (lambda (a b)
+                         (set! input a)
+                         (set! output b)
+                         (file-stream-buffer-mode input 'none)
+                         (file-stream-buffer-mode output 'none)))
+      (set! current-level (make-parameter (get-level 0 "Level 1")))
+      (delete-level "Level 2"))))
 
 (define (connect-to-revit-family)
-  (call-with-values(lambda () (tcp-connect server-addr 53800))
-                   (lambda (a b)
-                     (set! input a)
-                     (set! output b)
-                     (file-stream-buffer-mode input 'none)
-                     (file-stream-buffer-mode output 'none)))
-  (set! current-level (make-parameter (get-level 0 "Level 1"))))
+  (let rec((n 10))
+    (with-handlers ((exn:fail? (lambda (e)
+                                 (displayln "Reinicie o Revit")
+                                 (sleep 10)
+                                 (if (> n 0)
+                                     (rec (- n 1))
+                                     (raise e)))))
+      (call-with-values(lambda () (tcp-connect server-addr 53800))
+                       (lambda (a b)
+                         (set! input a)
+                         (set! output b)
+                         (file-stream-buffer-mode input 'none)
+                         (file-stream-buffer-mode output 'none)))
+      (set! current-level (make-parameter (get-level 0 "Level 1"))))))
 
 (define (close-ports)
   (close-input-port input)
