@@ -265,5 +265,8 @@
 (define-message-type
  buildingpadstrc
  ((repeated primitive:double pts 1) (required struct:idstrc level-id 2)))
+(define-message-type
+ extrusionstrc
+ ((repeated primitive:double pts 1) (required primitive:double elevation 2)))
 
 (provide (all-defined-out))

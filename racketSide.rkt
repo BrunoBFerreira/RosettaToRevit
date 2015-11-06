@@ -511,6 +511,14 @@
                                           #:profile2 prof2) output)
     (read-sized (cut deserialize (idstrc*) <>) input)))
 
+(define (extrusion-mass points elevation)
+  (let ((pts (convert-list points)))
+    (write-sized serialize (namestrc* #:name "createExtrusionMass") output)
+    (write-sized serialize (extrusionstrc* #:pts pts
+                                           #:elevation elevation) output)
+    (read-sized (cut deserialize (idstrc*) <>) input)))
+
+
 ;;;;;;;;Auxiliary Funtions;;;;;;;;;;;;;;
 
 (define (convert-list lista)
