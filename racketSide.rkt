@@ -518,6 +518,9 @@
                                            #:elevation elevation) output)
     (read-sized (cut deserialize (idstrc*) <>) input)))
 
+(define (import-dwg file)
+  (write-sized serialize (namestrc* #:name "importDWG") output)
+  (write-sized serialize (namestrc* #:name file) output))
 
 ;;;;;;;;Auxiliary Funtions;;;;;;;;;;;;;;
 
