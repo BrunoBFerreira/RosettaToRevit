@@ -256,7 +256,7 @@
  wallsfromslabsstrc
  ((required struct:idstrc slabid 1)
   (required struct:idstrc blevel 2)
-  (required struct:idstrc tlevel 3)))
+  (required primitive:double height 3)))
 (define-message-type
  holeslabstrc
  ((required struct:idstrc slabid 1) (repeated primitive:double pts 2)))

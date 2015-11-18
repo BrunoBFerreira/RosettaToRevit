@@ -411,11 +411,11 @@
                                                #:points pts) output)
     (read-sized (cut deserialize (idstrc*) <>) input)))
 
-(define (create-walls-from-slab slab-id #:bottom-level[bottom-level (current-level)] #:top-level[top-level (upper-level #:level bottom-level)])
+(define (create-walls-from-slab slab-id height #:bottom-level[bottom-level (current-level)])
   (write-sized serialize (namestrc* #:name "wallsFromSlabs") output)
   (write-sized serialize (wallsfromslabsstrc* #:slabid slab-id
                                               #:blevel bottom-level
-                                              #:tlevel top-level) output)
+                                              #:height height) output)
   (polyidstrc-ids (read-sized (cut deserialize (polyidstrc*) <>) input)))
 
 (define (create-hole-slab slab-id points)
