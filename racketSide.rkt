@@ -287,9 +287,9 @@
   (write-sized serialize (namestrc* #:name "deleteElement") output)
   (write-sized serialize elem output))
 
-(define (create-level height name)
+(define (create-level #:height [height 0])
   (write-sized serialize (namestrc* #:name "createLevel") output)
-  (write-sized serialize (levelstrc* #:h height #:name name) output)
+  (write-sized serialize (doublestrc* #:height height) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
 (define (upper-level #:level [level (current-level)]
