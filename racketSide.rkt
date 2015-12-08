@@ -511,6 +511,24 @@
   (write-sized serialize (namestrc* #:name "importDWG") output)
   (write-sized serialize (namestrc* #:name file) output))
 
+(define (move-element element vector)
+  (write-sized serialize (namestrc* #:name "moveElement") output)
+  (write-sized serialize (movestrc* #:element element
+                                    #:vectorx (cx vector)
+                                    #:vectory (cy vector)
+                                    #:vectorz (cz vector)) output))
+
+(define (rotate-element element angle p0 p1)
+  (write-sized serialize (namestrc* #:name "rotateElement") output)
+  (write-sized serialize (rotatestrc* #:element element
+                                      #:angle angle
+                                      #:p0x (cx p0)
+                                      #:p0y (cy p0)
+                                      #:p0z (cz p0)
+                                      #:p1x (cx p1)
+                                      #:p1y (cy p1)
+                                      #:p1z (cz p1)) output))
+
 ;;;;;;;;Auxiliary Funtions;;;;;;;;;;;;;;
 
 (define (convert-list lista)
