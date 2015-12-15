@@ -529,6 +529,18 @@
                                       #:p1y (cy p1)
                                       #:p1z (cz p1)) output))
 
+(define (create-beam p0 p1 width height)
+  (write-sized serialize (namestrc* #:name "createBeam") output)
+  (write-sized serialize (beaminfostrc* #:p0coordx (cx p0)
+                                        #:p0coordy (cy p0)
+                                        #:p0coordz (cz p0)
+                                        #:p1coordx (cx p1)
+                                        #:p1coordy (cy p1)
+                                        #:p1coordz (cz p1)
+                                        #:width width
+                                        #:height height) output)
+  (read-sized (cut deserialize (idstrc*) <>) input))
+
 ;;;;;;;;Auxiliary Funtions;;;;;;;;;;;;;;
 
 (define (convert-list lista)
