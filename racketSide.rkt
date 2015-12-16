@@ -317,7 +317,7 @@
                                      #:level level) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
-(define (column p0 blevel tlevel)
+#;(define (column p0 blevel tlevel)
   (write-sized serialize (namestrc* #:name "createColumn") output)
   (write-sized serialize (columnstrc* #:p0coordx (cx p0)
                                       #:p0coordy (cy p0)
@@ -337,7 +337,7 @@
                                             #:floorid (idstrc-id floor)) output))
 
 
-(define (floor-from-points lista level)
+#;(define (floor-from-points lista level)
   (let ((l (convert-list lista)))
     (write-sized serialize (namestrc* #:name "createFloorFromPoints") output)
     (write-sized serialize (polylinefloorstrc* #:floor level 
@@ -413,13 +413,14 @@
     (write-sized serialize (holeslabstrc* #:slabid slab-id
                                           #:pts pts) output)))
 
-(define (create-column center #:bottom-level[bottom-level (current-level)] #:top-level[top-level (upper-level #:level bottom-level)])
+(define (create-column center #:bottom-level[bottom-level (current-level)] #:top-level[top-level (upper-level #:level bottom-level)] #:width [width 0])
   (write-sized serialize (namestrc* #:name "createColumn") output)
   (write-sized serialize (columnstrc* #:p0coordx (cx center)
                                       #:p0coordy (cy center)
                                       #:p0coordz (cz center)
                                       #:baselevel bottom-level
-                                      #:toplevel top-level) output)
+                                      #:toplevel top-level
+                                      #:width width) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
 
