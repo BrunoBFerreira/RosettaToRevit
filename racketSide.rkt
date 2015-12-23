@@ -530,7 +530,7 @@
                                       #:p1y (cy p1)
                                       #:p1z (cz p1)) output))
 
-(define (create-beam p0 p1 width height)
+(define (create-beam p0 p1 width height family wname hname)
   (write-sized serialize (namestrc* #:name "createBeam") output)
   (write-sized serialize (beaminfostrc* #:p0coordx (cx p0)
                                         #:p0coordy (cy p0)
@@ -539,7 +539,15 @@
                                         #:p1coordy (cy p1)
                                         #:p1coordz (cz p1)
                                         #:width width
-                                        #:height height) output)
+                                        #:height height
+                                        #:family family
+                                        #:wname wname
+                                        #:hname hname) output)
+  (read-sized (cut deserialize (idstrc*) <>) input))
+
+(define (load-family path)
+  (write-sized serialize (namestrc* #:name "loadFamily") output)
+  (write-sized serialize (namestrc* #:name path) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
 ;;;;;;;;Auxiliary Funtions;;;;;;;;;;;;;;
