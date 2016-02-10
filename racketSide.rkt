@@ -530,7 +530,7 @@
                                       #:p1y (cy p1)
                                       #:p1z (cz p1)) output))
 
-(define (create-beam p0 p1 width height family wname hname)
+(define (create-beam p0 p1 #:family[family (idstrc* #:id 0)])
   (write-sized serialize (namestrc* #:name "createBeam") output)
   (write-sized serialize (beaminfostrc* #:p0coordx (cx p0)
                                         #:p0coordy (cy p0)
@@ -538,17 +538,21 @@
                                         #:p1coordx (cx p1)
                                         #:p1coordy (cy p1)
                                         #:p1coordz (cz p1)
-                                        #:width width
-                                        #:height height
-                                        #:family family
-                                        #:wname wname
-                                        #:hname hname) output)
+                                        #:family family) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
 (define (load-family path)
   (write-sized serialize (namestrc* #:name "loadFamily") output)
   (write-sized serialize (namestrc* #:name path) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
+
+(define (family-element family #:flag-override[flag-override #f] #:parameter-names[parameter-names (list)] #:parameter-values[parameter-values (list)])
+  (write-sized serialize (namestrc* #:name "familyElement") output)
+  (write-sized serialize (familyelementstrc* #:familyid family
+                                             #:flag flag-override
+                                             #:names parameter-names
+                                             #:values parameter-values) output)
+   (read-sized (cut deserialize (idstrc*) <>) input))
 
 ;;;;;;;;Auxiliary Funtions;;;;;;;;;;;;;;
 
