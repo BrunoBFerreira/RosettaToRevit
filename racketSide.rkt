@@ -54,6 +54,16 @@
 
 (define default-level-to-level-height (make-parameter (mt 3)))
 
+(define default-beam-family (make-parameter (idstrc* #:id 0)))
+
+(define default-wall-family (make-parameter (idstrc* #:id 0)))
+
+(define default-slab-family (make-parameter (idstrc* #:id 0)))
+
+(define default-roof-family (make-parameter (idstrc* #:id 0)))
+
+(define default-column-family (make-parameter (idstrc* #:id 0)))
+
 (define server-addr "localhost")
 
 (define (connect-to-revit)
@@ -203,14 +213,6 @@
                                          #:levelb levelb
                                          #:levelt levelt) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
-
-(define (poly-wall pts levelb levelt)
-  (let ((l (convert-list pts)))
-    (write-sized serialize (namestrc* #:name "polyWall") output)
-    (write-sized serialize (polywallstrc* #:pts l
-                                          #:levelb levelb
-                                          #:levelt levelt) output)
-    (read-sized (cut deserialize (polyidstrc*) <>) input)))
 
 
 (define (curtain-wall p0 p1 p2 p3 level)
@@ -377,27 +379,30 @@
 ;;;;;;;;New 2.0 Operator ;;;;;;;;;;;;;;;
 
 
-(define (create-wall guide #:bottom-level[bottom-level (current-level)] #:top-level[top-level (upper-level #:level bottom-level)])
+(define (create-wall guide #:bottom-level[bottom-level (current-level)] #:top-level[top-level (upper-level #:level bottom-level)] #:family[family (default-wall-family)])
   (let ((pts (convert-list guide)))
     (write-sized serialize (namestrc* #:name "polyWall") output)
     (write-sized serialize (polywallstrc* #:pts pts
                                           #:levelb bottom-level
-                                          #:levelt top-level) output)
+                                          #:levelt top-level
+                                          #:familyid family) output)
     (polyidstrc-ids (read-sized (cut deserialize (polyidstrc*) <>) input))))
 
-(define (create-slab guide #:bottom-level [bottom-level (current-level)])
+(define (create-slab guide #:bottom-level [bottom-level (current-level)] #:family [family (default-slab-family)])
   (let ((pts (convert-list guide)))
     (write-sized serialize (namestrc* #:name "createFloorFromPoints") output)
     (write-sized serialize (polylinefloorstrc* #:floor bottom-level 
-                                               #:points pts) output)
+                                               #:points pts
+                                               #:familyid family) output)
     (read-sized (cut deserialize (idstrc*) <>) input)))
 
 
-(define (create-roof guide #:bottom-level[bottom-level (current-level)])
+(define (create-roof guide #:bottom-level[bottom-level (current-level)] #:family [family (default-roof-family)])
  (let ((pts (convert-list guide)))
     (write-sized serialize (namestrc* #:name "createRoof") output)
     (write-sized serialize (polylinefloorstrc* #:floor bottom-level 
-                                               #:points pts) output)
+                                               #:points pts
+                                               #:familyid family) output)
     (read-sized (cut deserialize (idstrc*) <>) input)))
 
 (define (create-walls-from-slab slab-id height #:bottom-level[bottom-level (current-level)])
@@ -413,14 +418,15 @@
     (write-sized serialize (holeslabstrc* #:slabid slab-id
                                           #:pts pts) output)))
 
-(define (create-column center #:bottom-level[bottom-level (current-level)] #:top-level[top-level (upper-level #:level bottom-level)] #:width [width 0])
+(define (create-column center #:bottom-level[bottom-level (current-level)] #:top-level[top-level (upper-level #:level bottom-level)] #:width [width 0] #:family[family (default-column-family)])
   (write-sized serialize (namestrc* #:name "createColumn") output)
   (write-sized serialize (columnstrc* #:p0coordx (cx center)
                                       #:p0coordy (cy center)
                                       #:p0coordz (cz center)
                                       #:baselevel bottom-level
                                       #:toplevel top-level
-                                      #:width width) output)
+                                      #:width width
+                                      #:familyid family) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
 
@@ -530,7 +536,7 @@
                                       #:p1y (cy p1)
                                       #:p1z (cz p1)) output))
 
-(define (create-beam p0 p1 #:family[family (idstrc* #:id 0)])
+(define (create-beam p0 p1 #:family[family (default-beam-family)])
   (write-sized serialize (namestrc* #:name "createBeam") output)
   (write-sized serialize (beaminfostrc* #:p0coordx (cx p0)
                                         #:p0coordy (cy p0)

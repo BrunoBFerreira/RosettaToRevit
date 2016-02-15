@@ -84,7 +84,8 @@
  polywallstrc
  ((repeated primitive:double pts 1)
   (required struct:idstrc levelb 2)
-  (required struct:idstrc levelt 3)))
+  (required struct:idstrc levelt 3)
+  (required struct:idstrc familyid 4)))
 (define-message-type
  curtainwallstrc
  ((required primitive:double p0coordx 1)
@@ -174,7 +175,8 @@
   (required primitive:double p0coordz 3)
   (required struct:idstrc baselevel 4)
   (required struct:idstrc toplevel 5)
-  (required primitive:double width 6)))
+  (required primitive:double width 6)
+  (required struct:idstrc familyid 7)))
 (define-message-type
  flooropeningstrc
  ((required primitive:double p0coordx 1)
@@ -186,7 +188,9 @@
   (required primitive:int32 floorid 7)))
 (define-message-type
  polylinefloorstrc
- ((required struct:idstrc floor 1) (repeated primitive:double points 2)))
+ ((required struct:idstrc floor 1)
+  (repeated primitive:double points 2)
+  (required struct:idstrc familyid 3)))
 (define-message-type linestrc ((repeated primitive:double points 1)))
 (define-message-type matrixstrc ((repeated struct:linestrc lines 1)))
 (define-message-type
