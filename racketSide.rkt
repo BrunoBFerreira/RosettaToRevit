@@ -64,6 +64,8 @@
 
 (define default-column-family (make-parameter (idstrc* #:id 0)))
 
+(define default-door-family (make-parameter (idstrc* #:id 0)))
+
 (define server-addr "localhost")
 
 (define (connect-to-revit)
@@ -150,6 +152,17 @@
                                           #:p1coordz (cz p1)) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
+(define (cylinder-metric p0 r p1)
+  (write-sized serialize (namestrc* #:name "cylinderMetric") output)
+  (write-sized serialize (cylinderbstrc* #:p0coordx (cx p0)
+                                          #:p0coordy (cy p0)
+                                          #:p0coordz (cz p0)
+                                          #:radius r
+                                          #:p1coordx (cx p1)
+                                          #:p1coordy (cy p1)
+                                          #:p1coordz (cz p1)) output)
+  (read-sized (cut deserialize (idstrc*) <>) input))
+
 (define (sphere p r)
   (write-sized serialize (namestrc* #:name "sphere") output)
   (write-sized serialize (spherestrc* #:p0coordx (- (cx p) r)
@@ -162,6 +175,19 @@
                                        #:p2coordy (+ (cy p) r)
                                        #:p2coordz (cz p)) output)
   (polyidstrc-ids (read-sized (cut deserialize (polyidstrc*) <>) input)))
+
+(define (sphere-metric p r)
+  (write-sized serialize (namestrc* #:name "sphereMetric") output)
+  (write-sized serialize (spherestrc* #:p0coordx (- (cx p) r)
+                                       #:p0coordy (cy p)
+                                       #:p0coordz (cz p)
+                                       #:p1coordx (+ (cx p) r)
+                                       #:p1coordy (cy p)
+                                       #:p1coordz (cz p)
+                                       #:p2coordx (cx p)
+                                       #:p2coordy (+ (cy p) r)
+                                       #:p2coordz (cz p)) output)
+  (read-sized (cut deserialize (idstrc*) <>) input))
 
 (define (union id1 id2 . ids)
   (let ((l (list)))
@@ -252,19 +278,21 @@
 
 
 
-(define (insert-door id loc)
+(define (insert-door id loc #:family[family (default-door-family)])
   (write-sized serialize (namestrc* #:name "insertDoor") output)
   (write-sized serialize (insertdoorstrc* #:hostid (idstrc-id id)
                                           #:p0coordx (cx loc)
                                           #:p0coordy (cy loc)
-                                          #:p0coordz (cz loc))output)
+                                          #:p0coordz (cz loc)
+                                          #:family family)output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
-(define (insert-door-relative id deltaX deltaY)
+(define (insert-door-relative id deltaX deltaY #:family[family (default-door-family)])
   (write-sized serialize (namestrc* #:name "insertDoor1") output)
   (write-sized serialize (insertdoorbstrc* #:hostid (idstrc-id id)
                                           #:deltax deltaX
-                                          #:deltay deltaY) output)
+                                          #:deltay deltaY
+                                          #:family family) output)
   (read-sized (cut deserialize (idstrc*) <>) input))
 
 (define (insert-window id deltaX deltaY)

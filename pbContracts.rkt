@@ -141,12 +141,14 @@
  ((required primitive:int32 hostid 1)
   (required primitive:double p0coordx 2)
   (required primitive:double p0coordy 3)
-  (required primitive:double p0coordz 4)))
+  (required primitive:double p0coordz 4)
+  (required struct:idstrc family 5)))
 (define-message-type
  insertdoorbstrc
  ((required primitive:int32 hostid 1)
   (required primitive:double deltax 2)
-  (required primitive:double deltay 3)))
+  (required primitive:double deltay 3)
+  (required struct:idstrc family 4)))
 (define-message-type
  insertwindowstrc
  ((required primitive:int32 hostid 1)
