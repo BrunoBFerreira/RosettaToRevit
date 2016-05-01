@@ -241,7 +241,9 @@
   (read-sized (cut deserialize (idstrc*) <>) input))
 
 
-(define (curtain-wall p0 p1 p2 p3 level)
+(define (curtain-wall p0 p1 ucoords vcoords base-level top-level)
+   (let ((ucoordsdouble (convert-list ucoords))
+         (vcoordsdouble (convert-list vcoords)))
   (write-sized serialize (namestrc* #:name "curtainWall") output)
   (write-sized serialize (curtainwallstrc* #:p0coordx (cx p0)
                                            #:p0coordy (cy p0)
@@ -249,14 +251,11 @@
                                            #:p1coordx (cx p1)
                                            #:p1coordy (cy p1)
                                            #:p1coordz (cz p1)
-                                           #:p2coordx (cx p2)
-                                           #:p2coordy (cy p2)
-                                           #:p2coordz (cz p2)
-                                           #:p3coordx (cx p3)
-                                           #:p3coordy (cy p3)
-                                           #:p3coordz (cz p3)
-                                           #:level level) output)
-  (read-sized (cut deserialize (idstrc*) <>) input))
+                                           #:ulinecoord ucoordsdouble
+                                           #:vlinecoord vcoordsdouble
+                                           #:baselevel base-level
+                                           #:toplevel top-level) output)
+  (read-sized (cut deserialize (idstrc*) <>) input)))
 
 (define (mass-wall p0 p1 p2 p3 height level)
   (write-sized serialize (namestrc* #:name "massWall") output)
