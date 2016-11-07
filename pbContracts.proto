@@ -1,0 +1,390 @@
+message namestrc {
+	required string name = 1;
+}
+
+message boxstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required double p2coordx = 7;
+	required double p2coordy = 8;
+	required double p2coordz = 9;
+	required double p3coordx = 10;
+	required double p3coordy = 11;
+	required double p3coordz = 12;
+	required double height = 13;
+}
+
+message cylinderstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double radius = 4;
+	required double height = 5;
+}
+
+message cylinderbstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double radius = 4;
+	required double p1coordx = 5;
+	required double p1coordy = 6;
+	required double p1coordz = 7;
+}
+
+message spherestrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required double p2coordx = 7;
+	required double p2coordy = 8;
+	required double p2coordz = 9;
+}
+
+message familyelementstrc { 
+	required idstrc familyid = 1;
+	required bool flag = 2;
+	repeated string names = 3;
+	repeated double values = 4;
+
+}
+
+message wallstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required idstrc level = 7;
+}
+
+message wallheightstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required double height = 7;
+	required idstrc level = 8;
+}
+
+message walllevelstrc{
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required idstrc levelb = 7;
+	required idstrc levelt = 8;
+}
+
+message polywallstrc{
+	repeated double pts = 1;
+	required idstrc levelb = 2;
+	required idstrc levelt = 3;
+	required idstrc familyid = 4;
+}
+
+message curtainwallstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	repeated double ulinecoord = 7;
+	repeated double vlinecoord = 8;
+	required idstrc baselevel = 9;
+	required idstrc toplevel = 10;
+}
+
+message wallinfostrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required double baseelevation = 7;
+	required string baselevelname = 8;
+	required double topelevation = 9;
+	required string toplevelname = 10;
+	required string walltype = 11;
+}
+
+message beaminfostrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required idstrc family = 7;
+}
+
+message polywallinfostrc{
+	repeated wallinfostrc walls = 1;
+}
+
+message idstrc{
+	required int32 id = 1;
+}
+
+message doublestrc{
+	required double height = 1;
+}
+
+message boolstrc{
+	required bool answer = 1;
+}
+
+message doublevolumestrc{
+	required double volume = 1;
+}
+
+message polyidstrc{
+	repeated idstrc ids = 1;
+}
+
+message polylevelstrc{
+	repeated levelstrc levels = 1;
+}
+
+message levelstrc{
+	required double h = 1;
+	required string name = 2;
+}
+
+message upperlevelstrc{
+	required idstrc current = 1;
+	required double elevation = 2;
+}
+
+message insertdoorstrc {
+	required int32 hostid = 1;
+	required double p0coordx = 2;
+	required double p0coordy = 3;
+	required double p0coordz = 4;
+	required idstrc family = 5;
+}
+
+message insertdoorbstrc {
+	required int32 hostid = 1;
+	required double deltax = 2;
+	required double deltay = 3;
+	required idstrc family = 4;
+}
+
+message insertwindowstrc {
+	required int32 hostid = 1;
+	required double deltax = 2;
+	required double deltay = 3;
+}
+
+message roundfloorstrc {
+	required double radius = 1;
+	required double centerX = 2;
+	required double centerY = 3;
+	required double centerZ = 4;
+	required idstrc level = 5;
+}
+
+message floorstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required idstrc level = 7;
+}
+
+message columnstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required idstrc baselevel = 4;
+	required idstrc toplevel = 5;
+	required double width = 6;
+	required idstrc familyid = 7;
+}
+
+message columnpointsstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required idstrc baselevel = 7;
+	required idstrc toplevel = 8;
+	required double width = 9;
+	required idstrc familyid = 10;
+}
+
+message flooropeningstrc {
+	required double p0coordx = 1;
+	required double p0coordy = 2;
+	required double p0coordz = 3;
+	required double p1coordx = 4;
+	required double p1coordy = 5;
+	required double p1coordz = 6;
+	required int32 floorid = 7;
+}
+
+message polylinefloorstrc{
+	required idstrc floor = 1;
+	repeated double points = 2;
+	required idstrc familyid = 3;
+}
+
+message linestrc{
+	repeated double points = 1;
+}
+
+message matrixstrc{
+	repeated linestrc lines = 1;
+}
+
+message intersectstrc{
+	required idstrc wallId = 1;
+	required idstrc floorId = 2;
+}
+
+message stairrunstrc{
+	
+	required idstrc bottomLevel = 1;
+	required idstrc topLevel = 2;
+	required double p0coordx = 3;
+	required double p0coordy = 4;
+	required double p0coordz = 5;
+	required double p1coordx = 6;
+	required double p1coordy = 7;
+	required double p1coordz = 8;
+	required double width = 9;
+	required idstrc family = 10;
+}
+
+message stairstrc{
+	required idstrc bottomLevel = 1;
+	required idstrc topLevel = 2;
+	required double bottomp0coordx = 3;
+	required double bottomp0coordy = 4;
+	required double bottomp0coordz = 5;
+	required double topp0coordx = 6;
+	required double topp0coordy = 7;
+	required double topp0coordz = 8;
+	
+}
+
+message landingstrc{
+	required double bottomleftcornerx = 1;
+	required double bottomleftcornery = 2;
+	required double bottomleftcornerz = 3;
+	required double topleftcornerx = 4;
+	required double topleftcornery = 5;
+	required double topleftcornerz = 6;
+	required double bottomrightcornerx = 7;
+	required double bottomrightcornery = 8;
+	required double bottomrightcornerz = 9;
+	required double toprightcornerx = 10;
+	required double toprightcornery = 11;
+	required double toprightcornerz = 12;
+	required idstrc stairsrunid = 13;
+}
+
+message slabwallstrc {
+	required double bottomleftcornerx = 1;
+	required double bottomleftcornery = 2;
+	required double bottomleftcornerz = 3;
+	required double topleftcornerx = 4;
+	required double topleftcornery = 5;
+	required double topleftcornerz = 6;
+	required double bottomrightcornerx = 7;
+	required double bottomrightcornery = 8;
+	required double bottomrightcornerz = 9;
+	required double toprightcornerx = 10;
+	required double toprightcornery = 11;
+	required double toprightcornerz = 12;
+	required idstrc levelId = 13;
+}
+
+message masswallstrc {
+	required double bottomleftcornerx = 1;
+	required double bottomleftcornery = 2;
+	required double bottomleftcornerz = 3;
+	required double topleftcornerx = 4;
+	required double topleftcornery = 5;
+	required double topleftcornerz = 6;
+	required double bottomrightcornerx = 7;
+	required double bottomrightcornery = 8;
+	required double bottomrightcornerz = 9;
+	required double toprightcornerx = 10;
+	required double toprightcornery = 11;
+	required double toprightcornerz = 12;
+	required double height = 13;
+	required idstrc levelId = 14;
+}
+
+message masssweepstrc {
+	repeated double profile1 = 1;
+	repeated double path = 2;
+	repeated double profile2 = 3;
+}
+
+message wallsfromslabsstrc{
+	required idstrc slabid = 1;
+	required idstrc blevel = 2;
+	required double height = 3;
+}
+
+message holeslabstrc{
+	required idstrc slabid = 1;
+	repeated double pts = 2;
+}
+
+message railingsstrc{
+	required idstrc slabid = 1;
+}
+
+message toposurfacestrc {
+	repeated double pts = 1;
+}
+
+message buildingpadstrc{
+	repeated double pts = 1;
+	required idstrc levelID = 2;
+}
+
+message extrusionstrc{
+	repeated double pts = 1;
+	required double elevation = 2;
+}
+
+message movestrc{
+	required idstrc element = 1;
+	required double vectorx = 2;
+	required double vectory = 3;
+	required double vectorz = 4;
+}
+
+message rotatestrc{
+	required idstrc element = 1;
+	required double angle = 2;
+	required double p0x = 3;
+	required double p0y = 4;
+	required double p0z = 5;
+	required double p1x = 6;
+	required double p1y = 7;
+	required double p1z = 8;
+}
